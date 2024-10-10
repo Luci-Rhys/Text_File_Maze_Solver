@@ -2,10 +2,10 @@
 # Dr. Nicholson
 # Maze Solver (Assignment 1)
 # CSCI 4560-19 (Robotics I)
-
-# The objective of this maze solver program is to "read" a maze map from a file, find a path from the source to the exit
-# by following the right wall of the maze, and prints the maze and newfound solution path
-
+#
+# The objective of this program is to solve a maze by finding a path from a robot's initial position to the exit of the
+# maze, which the robot will find by following the rightmost wall of the maze. Once a path is found, the program prints
+# the maze with the newfound path solution, along with the source and exit coordinates, the printed path between the
 
 #read_maze method takes file path for file breaks each line into individual, one-string characters for the maze
 def read_maze() -> list:
@@ -15,6 +15,7 @@ def read_maze() -> list:
     #loops until user enters an existing text file name
     while not file_found:
         maze_file = input(f"Enter the name (without .txt) of the maze text file: ") + ".txt"
+        print("")
 
         try:
             with open(maze_file, "r") as file_data:
@@ -39,8 +40,6 @@ def generate_path(maze: list, path: list, source: tuple, end: tuple):
     for node in path:
         if node != source and node != end:
             maze[node[0]][node[1]] = "*"
-    path.reverse()
-    print(path)
     pretty_print_maze(maze)
 
 #Function changes wall orientation to true for wall facing the robot and changes remaining orientations to false
@@ -178,10 +177,12 @@ def solve(maze : list):
     if maze[curr_row][curr_col] == "E":
         end = (curr_row, curr_col)
 
+    #Prints source and end coordinates, the path taken, and the number of steps
     print(f"Source : {source}")
     print(f"Path : {path}")
     print(f"End : {end}")
     print(f"Number of steps: {steps}")
+    print("")
 
     #Prints the maze with the solution path
     generate_path(maze, path, source, end)
