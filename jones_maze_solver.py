@@ -17,12 +17,14 @@ def read_maze() -> list:
         maze_file = input(f"Enter the name (without .txt) of the maze text file: ") + ".txt"
         print("")
 
+        #Opens and reads file, appending it to maze and setting file found to true
         try:
             with open(maze_file, "r") as file_data:
                 for line in file_data:
                     line = line.strip()
                     maze.append([ch for ch in line]) #breaks the string into individual one-string characters
             file_found = True
+
         #Exception if filename entered does not exist
         except FileNotFoundError:
             print(f"You gotta give it a file that exists. Your file: {maze_file} does not do that."
@@ -79,7 +81,6 @@ def solve(maze : list):
 
     #Assigns current row and column of robot to variables and adds to path list
     curr_row, curr_col = source
-    path.append((curr_row, curr_col))
 
     #Robot moves as right as possible to reach an east wall
     while maze[curr_row][curr_col + 1] != "#":
@@ -171,7 +172,8 @@ def solve(maze : list):
                 change_orientation(wall_orientation, "east_of_r")
 
         steps += 1
-        path.append((curr_row, curr_col)) #Adds new step to path list
+        if maze[curr_row][curr_col] != "E":
+            path.append((curr_row, curr_col)) #Adds new step to path list
 
     #Assigns exit location to end variable
     if maze[curr_row][curr_col] == "E":
